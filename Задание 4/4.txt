@@ -1,0 +1,63 @@
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+
+
+interface Observer {
+    fun <T : Any?> update(msg: T)
+}
+
+class Subscriber1 (private val id: Int = 1) : Observer {
+    override fun <T> update(msg: T) {
+        println ("Подписчик $id получил сообщение: $msg")
+    }
+}
+
+class Subscriber2  : Observer by Subscriber1(2)
+class Subscriber3  : Observer by Subscriber1(3)
+
+class NewsPoster {
+    
+    private var observers = ArrayList<Observer>()
+    
+    fun attach(ob: Observer) {
+        observers.add(ob)
+    }
+
+    fun  remove(ob: Observer) {
+        observers.remove(ob)
+    }
+    
+    fun <T : Any?> setMsg(msg: T) {
+        this.notify(msg)
+    }
+    
+    private fun <T : Any?> notify(msg: T) {
+        for (iOb in this.observers) {
+            iOb.update(msg)
+        }
+    }
+}
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val sub = NewsPoster()
+        val subscriber1=Subscriber1()
+        val subscriber2=Subscriber2()
+        val subscriber3=Subscriber3()
+        sub.attach(subscriber1)
+        sub.attach(subscriber2)
+        sub.attach(subscriber3)
+
+        sub.setMsg(12345)
+        sub.setMsg("Тест")
+        sub.setMsg(null)
+        sub.remove(subscriber3)
+        sub.setMsg("Без подписчика 3")
+        sub.remove(subscriber1)
+        sub.remove(subscriber2)
+        sub.attach(subscriber3)
+        sub.setMsg("Только подписчик 3")
+        setContentView(R.layout.activity_main)
+    }
+}
