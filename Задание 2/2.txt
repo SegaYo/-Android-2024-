@@ -1,0 +1,3 @@
+val arrayElements = arrayOf("Lorem", "Lorem", "ipsum","Duis","dolor","ipsum","Excepteur", "ipsum", "Duis", "dolor","Lorem","Lorem", "Excepteur", "Excepteur","Lorem", "Duis")
+val countElements = arrayElements.groupingBy1 { it }.eachCount()
+print(countElements)
