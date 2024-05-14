@@ -1,0 +1,113 @@
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import kotlin.math.*
+
+open class Cuboid{
+
+    open fun basearea(side1: Double,side2: Double): Double {
+        return side1*side2
+    }
+    open fun volume(side1: Double,side2: Double,height:Double): Double {
+        return basearea(side1,side2) * height
+    }
+}
+class Cube: Cuboid() {
+    fun basearea(side1: Double): Double {
+        return super.basearea(side1,side1)
+    }
+    fun volume(side1: Double): Double {
+        return super.volume(side1, side1, side1)
+    }
+}
+
+open class Cone {
+    open fun basearea(radius: Double): Double {
+        return PI*radius.pow(2)
+    }
+    open fun volume(height: Double,radius: Double): Double {
+        return 1.0/3.0*(basearea(radius)*height)
+    }
+}
+class Cylinder:Cone(){
+    override fun volume(height: Double, radius: Double): Double {
+        return basearea(radius)*height
+    }
+}
+
+
+class PyramidTriangle{
+    fun basearea(side1: Double,heightTriangle: Double): Double {
+        val base=0.5*(side1*heightTriangle)
+        return base
+    }
+    fun volume(side1: Double,heightTriangle: Double,height: Double): Double {
+        val vol=basearea(side1,heightTriangle)*height
+        return vol*(1.0/3.0)
+    }
+}
+class PyramidRectangle:Cuboid(){
+    override fun volume(side1: Double, side2: Double, height: Double): Double {
+        return 1.0/3.0*(basearea(side1,side2)*height)
+    }
+}
+
+
+open class PrismCuboid():Cuboid(){
+    override fun volume(side1:Double,side2: Double,height: Double): Double {
+        return basearea(side1,side2)*height
+    }
+}
+class Parallelepiped():PrismCuboid() {
+    override fun basearea(side1: Double, height: Double): Double {
+       return side1*height
+    }
+
+    override fun volume(side1: Double, heightSide: Double, height: Double): Double {
+        return super.volume(side1, heightSide, height)
+    }
+}
+class Ball{
+    fun volume( radius: Double): Double {
+        val vol=PI*radius.pow(3)
+        return vol*4/3
+    }
+}
+
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val cubid = Cuboid()
+        println("Площадь основания прямоугольного параллелепипеда=${cubid.basearea(10.0,20.00)}")
+        println("Объем прямоугольного параллелепипеда=${cubid.volume(10.0,20.0,30.0)}")
+
+        val cube = Cube()
+        println("Площадь основания куба=${cube.basearea(60.0)}")
+        println("Обьем куба=${cube.volume(60.0)}")
+
+        val par = Parallelepiped()
+        println("Площадь основания параллелепипеда=${par.basearea(60.0,20.0)}")
+        println("Обьем параллелепипеда=${par.volume(60.0,20.0,20.0)}")
+
+        val pyrTr = PyramidTriangle()
+        println("Площадь основания пирамиды с тремя углами=${pyrTr.basearea(60.0,20.0)}")
+        println("Обьем пирамиды=${pyrTr.volume(60.0,20.0,40.0)}")
+
+        val pyrRe = PyramidRectangle()
+        println("Площадь основания пирамиды с четырьмя углами=${pyrRe.basearea(60.0,20.0)}")
+        println("Обьем пирамиды=${pyrRe.volume(60.0,20.0,40.0)}")
+
+
+        val cone = Cone()
+        println("Площадь основания конуса=${cone.basearea(60.0)}")
+        println("Обьем конуса=${cone.volume(20.0,60.0)}")
+
+        val cylinder = Cylinder()
+        println("Площадь основания цилиндра=${cylinder.basearea(60.0)}")
+        println("Обьем цилиндра=${cylinder.volume(20.0,60.0)}")
+
+        val ball=Ball()
+        println("Обьем шара=${ball.volume(40.0)}")
+        setContentView(R.layout.activity_main)
+    }
+}
