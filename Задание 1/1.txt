@@ -1,0 +1,21 @@
+val randNumber =Random().nextInt((100))
+println("Искомый элемент $randNumber")
+val numbers = IntArray(101) { (it + 1) }
+for (index in numbers.indices) {
+    print("${numbers[index]}   ")
+}
+println()
+numbers[100]=randNumber
+numbers.shuffle()
+println("Массив после добавления дублирующего элемента и перемешивания")
+for (index in numbers.indices) {
+    print("${numbers[index]}   ")
+}
+println()
+val sumNumbers=numbers.sum();
+var sum100=0
+for (i in 1..100){
+    sum100+=i
+}
+println()
+println("Дублирующее число  - ${sumNumbers-sum100}")
